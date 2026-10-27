@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Patient Documents — DemaFora You</title>
+<style>
+  :root {
+    --sage: #4a7c6a;
+    --sage-light: #6a9e8a;
+    --cream: #faf9f6;
+    --ink: #1a1a1a;
+    --muted: #6b6b6b;
+    --border: #e0ddd8;
+    --card: #ffffff;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Georgia', serif; background: var(--cream); color: var(--ink); }
+  header {
+    background: var(--sage);
+    color: white;
+    padding: 40px 24px;
+    text-align: center;
+  }
+  header h1 { font-size: 2rem; font-weight: normal; letter-spacing: 0.02em; }
+  header p { margin-top: 8px; font-size: 1rem; opacity: 0.85; font-style: italic; }
+  .logo { font-size: 1.1rem; letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.7; margin-bottom: 12px; }
+  main { max-width: 720px; margin: 0 auto; padding: 40px 24px 80px; }
+  .intro { color: var(--muted); font-size: 0.95rem; line-height: 1.7; margin-bottom: 36px; }
+  .section-label {
+    font-family: 'Arial', sans-serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--sage);
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+  }
+  .doc-grid { display: flex; flex-direction: column; gap: 12px; margin-bottom: 40px; }
+  .doc-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    text-decoration: none;
+    color: var(--ink);
+    transition: box-shadow 0.2s;
+  }
+  .doc-card:hover { box-shadow: 0 4px 16px rgba(74,124,106,0.12); }
+  .doc-info h3 { font-size: 1rem; font-weight: normal; margin-bottom: 4px; }
+  .doc-info p { font-size: 0.82rem; color: var(--muted); font-family: 'Arial', sans-serif; }
+  .doc-arrow {
+    font-size: 1.2rem;
+    color: var(--sage);
+    flex-shrink: 0;
+    margin-left: 16px;
+  }
+  .note {
+    background: #f0f7f4;
+    border-left: 3px solid var(--sage);
+    padding: 16px 20px;
+    border-radius: 0 8px 8px 0;
+    font-size: 0.88rem;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+  footer {
+    text-align: center;
+    padding: 32px 24px;
+    font-size: 0.78rem;
+    color: var(--muted);
+    font-family: 'Arial', sans-serif;
+    border-top: 1px solid var(--border);
+    line-height: 1.6;
+  }
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">DemaFora You</div>
+  <h1>Patient Documents</h1>
+  <p>Review and complete all required forms before your first appointment.</p>
+</header>
+<main>
+  <p class="intro">
+    Please read each document carefully. Required forms must be completed prior to your initial consultation. You may print any document or complete forms digitally and return them to your care coordinator.
+  </p>
+
+  <div class="section-label">Required Before Your First Visit</div>
+  <div class="doc-grid">
+    <a class="doc-card" href="/consent-treatment">
+      <div class="doc-info">
+        <h3>Informed Consent — Ketamine Therapy</h3>
+        <p>Required — risks, benefits, and your rights as a patient</p>
+      </div>
+      <span class="doc-arrow">&#8594;</span>
+    </a>
+    <a class="doc-card" href="/consent-telehealth">
+      <div class="doc-info">
+        <h3>Telehealth Services Consent</h3>
+        <p>Required — consent for remote consultations</p>
+      </div>
+      <span class="doc-arrow">&#8594;</span>
+    </a>
+    <a class="doc-card" href="/medical-history">
+      <div class="doc-info">
+        <h3>Medical History Form</h3>
+        <p>Required — health background, medications, and screening</p>
+      </div>
+      <span class="doc-arrow">&#8594;</span>
+    </a>
+    <a class="doc-card" href="/financial-agreement">
+      <div class="doc-info">
+        <h3>Financial Agreement</h3>
+        <p>Required — pricing, payment terms, and cancellation policy</p>
+      </div>
+      <span class="doc-arrow">&#8594;</span>
+    </a>
+  </div>
+
+  <div class="section-label">Your Privacy and Rights</div>
+  <div class="doc-grid">
+    <a class="doc-card" href="/hipaa-notice">
+      <div class="doc-info">
+        <h3>HIPAA Notice of Privacy Practices</h3>
+        <p>How your health information is used and protected</p>
+      </div>
+      <span class="doc-arrow">&#8594;</span>
+    </a>
+  </div>
+
+  <div class="section-label">Prepare for Your Treatment</div>
+  <div class="doc-grid">
+    <a class="doc-card" href="/pre-post-instructions">
+      <div class="doc-info">
+        <h3>Pre and Post-Treatment Instructions</h3>
+        <p>What to do before and after each session</p>
+      </div>
+      <span class="doc-arrow">&#8594;</span>
+    </a>
+    <a class="doc-card" href="/patient-faq">
+      <div class="doc-info">
+        <h3>Patient FAQ</h3>
+        <p>Common questions about the program and what to expect</p>
+      </div>
+      <span class="doc-arrow">&#8594;</span>
+    </a>
+  </div>
+
+  <div class="note">
+    Questions about any document? Contact your care coordinator before your appointment. Do not sign any form if you have unanswered questions.
+  </div>
+</main>
+<footer>
+  DemaFora You is not an emergency service. If you are in crisis, call or text 988 (Suicide and Crisis Lifeline) or go to your nearest emergency room.<br>
+  These documents are provided for informational and administrative purposes. Treatment is provided by licensed medical professionals through a licensed provider network.
+</footer>
+</body>
+</html>
