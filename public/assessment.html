@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DemaFora You — Mental Health Assessment</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --sage:#4a7c6a;
+  --sage-light:#7aab95;
+  --sage-pale:#eaf3ef;
+  --cream:#faf9f6;
+  --white:#ffffff;
+  --ink:#1c1f1c;
+  --muted:#5e6b5e;
+  --border:#d4e4da;
+  --red:#c0392b;
+}
+body{font-family:'Inter',sans-serif;background:var(--cream);color:var(--ink);min-height:100vh;display:flex;flex-direction:column;}
+nav{background:var(--white);border-bottom:1px solid var(--border);padding:0 32px;height:60px;display:flex;align-items:center;justify-content:space-between;}
+.nav-logo{font-size:18px;font-weight:900;letter-spacing:-0.5px;}
+.nav-logo span{color:var(--sage);}
+.nav-secure{font-size:12px;color:var(--muted);}
+.progress-bar{background:var(--border);height:4px;}
+.progress-fill{background:var(--sage);height:4px;transition:width .4s ease;}
+
+.wrap{flex:1;display:flex;align-items:flex-start;justify-content:center;padding:40px 24px;}
+.card{background:var(--white);border:1px solid var(--border);border-radius:20px;padding:48px 40px;max-width:640px;width:100%;box-shadow:0 4px 24px rgba(74,124,106,0.06);}
+@media(max-width:600px){.card{padding:28px 20px;}}
+
+.phase-badge{background:var(--sage-pale);border:1px solid var(--sage);color:var(--sage);font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:5px 14px;border-radius:100px;display:inline-block;margin-bottom:20px;}
+.q-label{font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--sage);margin-bottom:10px;}
+.q-text{font-size:20px;font-weight:800;letter-spacing:-0.4px;color:var(--ink);line-height:1.3;margin-bottom:8px;}
+.q-sub{font-size:14px;color:var(--muted);margin-bottom:28px;line-height:1.6;}
+
+/* SCALE */
+.scale-wrap{margin-bottom:8px;}
+.scale-labels{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-bottom:10px;font-weight:500;}
+.scale-options{display:flex;gap:8px;justify-content:space-between;}
+.scale-btn{flex:1;padding:14px 4px;border:1.5px solid var(--border);border-radius:10px;background:var(--cream);cursor:pointer;font-size:14px;font-weight:700;color:var(--muted);transition:all .15s;text-align:center;}
+.scale-btn:hover{border-color:var(--sage);color:var(--sage);}
+.scale-btn.selected{background:var(--sage);border-color:var(--sage);color:#fff;}
+@media(max-width:480px){.scale-btn{padding:12px 2px;font-size:13px;}}
+
+/* MULTI */
+.multi-list{display:flex;flex-direction:column;gap:10px;}
+.multi-btn{display:flex;align-items:center;gap:12px;padding:14px 18px;border:1.5px solid var(--border);border-radius:12px;background:var(--cream);cursor:pointer;font-size:14px;font-weight:500;color:var(--ink);transition:all .15s;text-align:left;line-height:1.4;width:100%;}
+.multi-btn:hover{border-color:var(--sage-light);}
+.multi-btn.selected{border-color:var(--sage);background:var(--sage-pale);}
+.checkbox{width:20px;height:20px;border:2px solid var(--border);border-radius:5px;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .15s;}
+.multi-btn.selected .checkbox{background:var(--sage);border-color:var(--sage);}
+.multi-btn.selected .checkbox::after{content:'v';color:#fff;font-size:10px;font-weight:900;}
+
+/* SINGLE */
+.single-list{display:flex;flex-direction:column;gap:10px;}
+.single-btn{display:flex;align-items:center;gap:12px;padding:14px 18px;border:1.5px solid var(--border);border-radius:12px;background:var(--cream);cursor:pointer;font-size:14px;font-weight:500;color:var(--ink);transition:all .15s;text-align:left;line-height:1.4;width:100%;}
+.single-btn:hover{border-color:var(--sage);}
+.single-btn.selected{border-color:var(--sage);background:var(--sage-pale);font-weight:700;}
+.radio{width:20px;height:20px;border:2px solid var(--border);border-radius:50%;flex-shrink:0;transition:all .15s;}
+.single-btn.selected .radio{border-color:var(--sage);background:var(--sage);}
+
+/* NAV BUTTONS */
+.btn-row{display:flex;gap:12px;margin-top:28px;align-items:center;}
+.btn-next{background:var(--sage);color:#fff;border:none;padding:14px 28px;border-radius:100px;font-size:15px;font-weight:700;cursor:pointer;transition:background .2s;flex:1;}
+.btn-next:hover{background:#3a6455;}
+.btn-next:disabled{background:var(--border);cursor:not-allowed;color:var(--muted);}
+.btn-back{background:transparent;color:var(--muted);border:none;padding:14px 18px;font-size:14px;font-weight:500;cursor:pointer;}
+
+/* CRISIS */
+.crisis-box{background:#fef2f2;border:1.5px solid #f5c6c6;border-radius:12px;padding:20px;margin-top:16px;}
+.crisis-title{font-size:15px;font-weight:700;color:var(--red);margin-bottom:8px;}
+.crisis-text{font-size:14px;color:#7a2020;line-height:1.6;}
+
+/* SECTION HEADER */
+.section-header{background:var(--sage-pale);border-radius:12px;padding:16px 20px;margin-bottom:24px;border-left:4px solid var(--sage);}
+.section-title{font-size:14px;font-weight:700;color:var(--sage);}
+.section-desc{font-size:13px;color:var(--muted);margin-top:4px;}
+
+/* RESULT */
+.result-wrap{text-align:center;}
+.result-score{display:inline-flex;flex-direction:column;align-items:center;background:var(--sage-pale);border:2px solid var(--sage);border-radius:20px;padding:24px 40px;margin-bottom:24px;}
+.result-score-num{font-size:52px;font-weight:900;color:var(--sage);letter-spacing:-2px;line-height:1;}
+.result-score-label{font-size:13px;color:var(--muted);margin-top:4px;}
+.result-title{font-size:24px;font-weight:900;letter-spacing:-0.5px;margin-bottom:10px;}
+.result-sub{font-size:15px;color:var(--muted);line-height:1.7;margin-bottom:24px;max-width:480px;margin-left:auto;margin-right:auto;}
+.result-breakdown{background:var(--cream);border:1px solid var(--border);border-radius:14px;padding:20px;text-align:left;margin-bottom:24px;}
+.breakdown-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--border);font-size:14px;}
+.breakdown-row:last-child{border-bottom:none;}
+.breakdown-label{color:var(--ink);font-weight:500;}
+.breakdown-val{font-weight:700;color:var(--sage);}
+.btn-cta{background:var(--sage);color:#fff;border:none;padding:16px 32px;border-radius:100px;font-size:16px;font-weight:700;cursor:pointer;width:100%;transition:background .2s;}
+.btn-cta:hover{background:#3a6455;}
+.result-note{font-size:12px;color:var(--muted);margin-top:12px;}
+
+.step{display:none;}
+.step.active{display:block;}
+footer{text-align:center;padding:20px;font-size:11px;color:var(--muted);}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">DemaFora <span>You</span></div>
+  <div class="nav-secure">Clinical Assessment — Confidential</div>
+</nav>
+<div class="progress-bar"><div class="progress-fill" id="progress" style="width:4%"></div></div>
+
+<div class="wrap">
+<div class="card">
+
+<!-- INTRO -->
+<div class="step active" id="step-intro">
+  <div class="phase-badge">Phase 2 — Clinical Assessment</div>
+  <div class="q-text">Now let's understand how you've really been feeling.</div>
+  <div class="q-sub">This assessment is reviewed by your physician before your consultation. Be as honest as you can — there are no wrong answers. It takes about 5 minutes.</div>
+  <div class="section-header">
+    <div class="section-title">What this covers</div>
+    <div class="section-desc">Sleep quality, mood, energy, daily functioning, and more — tailored to what you told us about yourself.</div>
+  </div>
+  <div class="btn-row">
+    <button class="btn-next" onclick="startAssessment()">Begin Assessment</button>
+  </div>
+</div>
+
+<!-- QUESTIONS RENDERED DYNAMICALLY -->
+<div class="step" id="step-q"></div>
+
+<!-- RESULT -->
+<div class="step" id="step-result">
+  <div class="result-wrap">
+    <div class="phase-badge">Assessment Complete</div>
+    <div class="result-score">
+      <div class="result-score-num" id="score-num">--</div>
+      <div class="result-score-label" id="score-label">Overall severity score</div>
+    </div>
+    <div class="result-title" id="result-title">Your results are ready.</div>
+    <div class="result-sub" id="result-sub">A licensed physician will review your full assessment before your consultation.</div>
+    <div class="result-breakdown" id="result-breakdown"></div>
+    <button class="btn-cta" onclick="alert('Your assessment has been submitted. A physician will review it and reach out within 24 hours.')">Submit to Physician</button>
+    <div class="result-note">Your responses are confidential and reviewed only by your assigned physician.</div>
+  </div>
+</div>
+
+</div>
+</div>
+
+<footer>DemaFora You is a healthcare technology platform. This assessment is not a clinical diagnosis. Results are reviewed by licensed independent physicians.</footer>
+
+<script>
+// Get condition from URL param or default to depression
+const params = new URLSearchParams(window.location.search);
+const condition = params.get('condition') || 'depression';
+
+// Question banks by condition
+const questionBanks = {
+  depression: [
+    {
+      id: 'dep1',
+      section: 'Sleep',
+      text: 'Over the past two weeks, how has your sleep been?',
+      sub: 'Think about how often you have trouble falling asleep, staying asleep, or sleeping too much.',
+      type: 'scale',
+      labels: ['No problems', 'Mild issues', 'Moderate', 'Most nights', 'Every night'],
+      values: [0,1,2,3,4],
+      weight: 1
+    },
+    {
+      id: 'dep2',
+      section: 'Mood',
+      text: 'How often have you felt down, depressed, or hopeless?',
+      sub: 'Consider the past two weeks.',
+      type: 'scale',
+      labels: ['Not at all', 'Several days', 'Half the days', 'More than half', 'Nearly every day'],
+      values: [0,1,2,3,4],
+      weight: 2
+    },
+    {
+      id: 'dep3',
+      section: 'Energy',
+      text: 'How would you describe your energy levels day to day?',
+      sub: '',
+      type: 'single',
+      options: ['Normal — I have enough energy for what I need to do','Somewhat low — I get tired more easily than usual','Very low — I struggle to do basic tasks','Exhausted — getting out of bed is a major effort'],
+      scores: [0,1,2,3],
+      weight: 1
+    },
+    {
+      id: 'dep4',
+      section: 'Interest',
+      text: 'Have you lost interest or pleasure in things you used to enjoy?',
+      sub: 'Hobbies, socializing, activities that used to matter to you.',
+      type: 'scale',
+      labels: ['Not at all', 'A little', 'Somewhat', 'A lot', 'Almost completely'],
+      values: [0,1,2,3,4],
+      weight: 2
+    },
+    {
+      id: 'dep5',
+      section: 'Concentration',
+      text: 'How much trouble do you have concentrating — reading, working, making decisions?',
+      sub: '',
+      type: 'scale',
+      labels: ['No trouble', 'Slight', 'Moderate', 'Significant', 'Severe'],
+      values: [0,1,2,3,4],
+      weight: 1
+    },
+    {
+      id: 'dep6',
+      section: 'Self-worth',
+      text: 'How often have you felt bad about yourself, like you\'ve let people down or are a failure?',
+      sub: '',
+      type: 'scale',
+      labels: ['Rarely', 'Sometimes', 'Often', 'Most of the time', 'Constantly'],
+      values: [0,1,2,3,4],
+      weight: 1.5
+    },
+    {
+      id: 'dep7',
+      section: 'Appetite',
+      text: 'Has your appetite or weight changed significantly?',
+      sub: '',
+      type: 'single',
+      options: ['No change','Eating a bit less or more than usual','Significant change — I\'ve lost or gained noticeably','I rarely feel hungry, or I can\'t stop eating'],
+      scores: [0,1,2,3],
+      weight: 1
+    },
+    {
+      id: 'dep8',
+      section: 'Functioning',
+      text: 'How difficult has it been to do your work, take care of things at home, or get along with people?',
+      sub: '',
+      type: 'single',
+      options: ['Not difficult at all','Somewhat difficult','Very difficult','Extremely difficult — I can barely function'],
+      scores: [0,1,2,3],
+      weight: 1.5
+    },
+    {
+      id: 'dep9',
+      section: 'Thoughts of self-harm',
+      text: 'Have you had thoughts that you would be better off dead, or thoughts of hurting yourself?',
+      sub: 'This question is important for your physician. Your answer does not disqualify you.',
+      type: 'single',
+      crisis: true,
+      options: ['Not at all','Occasionally — brief thoughts that pass','Regularly — it comes up more than I\'d like','Frequently — I think about this often'],
+      scores: [0,1,2,3],
+      weight: 2
+    },
+    {
+      id: 'dep10',
+      section: 'Duration',
+      text: 'How long have you been experiencing these symptoms?',
+      sub: '',
+      type: 'single',
+      options: ['Less than a month','1-6 months','6 months to 2 years','More than 2 years','Most of my life — it comes and goes'],
+      scores: [0,0,1,2,3],
+      weight: 0.5
+    }
+  ],
+
+  anxiety: [
+    {
+      id: 'anx1',
+      section: 'Worry',
+      text: 'How often do you find yourself worrying about different things — even when there\'s no obvious reason?',
+      sub: 'Consider the past two weeks.',
+      type: 'scale',
+      labels: ['Rarely', 'Sometimes', 'Often', 'Most of the time', 'Constantly'],
+      values: [0,1,2,3,4],
+      weight: 2
+    },
+    {
+      id: 'anx2',
+      section: 'Control',
+      text: 'How hard is it to stop worrying once it starts?',
+      sub: '',
+      type: 'scale',
+      labels: ['Easy to stop', 'Usually can', 'Sometimes', 'Rarely can', 'I can\'t stop it'],
+      values: [0,1,2,3,4],
+      weight: 1.5
+    },
+    {
+      id: 'anx3',
+      section: 'Physical symptoms',
+      text: 'Do you experience physical anxiety symptoms — racing heart, chest tightness, shortness of breath, sweating?',
+      sub: '',
+      type: 'scale',
+      labels: ['Never', 'Rarely', 'Sometimes', 'Often', 'Very often'],
+      values: [0,1,2,3,4],
+      weight: 1
+    },
+    {
+      id: 'anx4',
+      section: 'Avoidance',
+      text: 'Do you avoid situations, people, or places because of anxiety?',
+      sub: 'Social situations, work obligations, public places, conversations.',
+      type: 'single',
+      options: ['No avoidance','Occasionally avoid minor things','I regularly avoid things that matter to me','Significant avoidance — it limits my life a lot'],
+      scores: [0,1,2,3],
+      weight: 1.5
+    },
+    {
+      id: 'anx5',
+      section: 'Panic',
+      text: 'Have you experienced panic attacks — sudden overwhelming fear with physical symptoms?',
+      sub: '',
+      type: 'single',
+      options: ['Never','Once or twice total','A few times in the past month','Regularly — multiple times per week'],
+      scores: [0,1,2,3],
+      weight: 1
+    },
+    {
+      id: 'anx6',
+      section: 'Sleep',
+      text: 'Does anxiety affect your ability to fall asleep or stay asleep?',
+      sub: '',
+      type: 'scale',
+      labels: ['Not at all', 'Occasionally', 'A few nights/wk', 'Most nights', 'Every night'],
+      values: [0,1,2,3,4],
+      weight: 1
+    },
+    {
+      id: 'anx7',
+      section: 'Functioning',
+      text: 'How much does anxiety interfere with your work, relationships, or daily life?',
+      sub: '',
+      type: 'single',
+      options: ['Minimal impact','It affects things but I manage','Significant — it\'s hard to get through the day','Severe — I can barely function'],
+      scores: [0,1,2,3],
+      weight: 2
+    },
+    {
+      id: 'anx8',
+      section: 'Duration',
+      text: 'How long have you been experiencing anxiety at this level?',
+      sub: '',
+      type: 'single',
+      options: ['Less than a month','1-6 months','6 months to 2 years','More than 2 years'],
+      scores: [0,0,1,2],
+      weight: 0.5
+    }
+  ],
+
+  ptsd: [
+    {
+      id: 'ptsd1',
+      section: 'Intrusive memories',
+      text: 'How often do unwanted memories, flashbacks, or images from a traumatic event come to mind?',
+      sub: '',
+      type: 'scale',
+      labels: ['Never', 'Rarely', 'Sometimes', 'Often', 'Constantly'],
+      values: [0,1,2,3,4],
+      weight: 2
+    },
+    {
+      id: 'ptsd2',
+      section: 'Nightmares',
+      text: 'How often do you have distressing dreams related to a traumatic experience?',
+      sub: '',
+      type: 'scale',
+      labels: ['Never', 'Rarely', '1-2x/week', 'Several/week', 'Almost nightly'],
+      values: [0,1,2,3,4],
+      weight: 1.5
+    },
+    {
+      id: 'ptsd3',
+      section: 'Avoidance',
+      text: 'Do you avoid thoughts, feelings, people, or places that remind you of the traumatic event?',
+      sub: '',
+      type: 'scale',
+      labels: ['Not at all', 'Slightly', 'Moderately', 'Quite a bit', 'Extremely'],
+      values: [0,1,2,3,4],
+      weight: 1.5
+    },
+    {
+      id: 'ptsd4',
+      section: 'Emotional numbing',
+      text: 'Do you feel emotionally numb, detached from others, or unable to feel positive emotions?',
+      sub: '',
+      type: 'scale',
+      labels: ['Not at all', 'Slightly', 'Moderately', 'Quite a bit', 'Extremely'],
+      values: [0,1,2,3,4],
+      weight: 1.5
+    },
+    {
+      id: 'ptsd5',
+      section: 'Hypervigilance',
+      text: 'Do you feel constantly on guard, easily startled, or unable to relax?',
+      sub: '',
+      type: 'scale',
+      labels: ['Not at all', 'Slightly', 'Moderately', 'Quite a bit', 'Extremely'],
+      values: [0,1,2,3,4],
+      weight: 1
+    },
+    {
+      id: 'ptsd6',
+      section: 'Negative thoughts',
+      text: 'How often do you have negative beliefs about yourself or the world as a result of what happened?',
+      sub: 'Thoughts like "I can\'t trust anyone," "I deserve what happened," "The world is completely dangerous."',
+      type: 'scale',
+      labels: ['Rarely', 'Sometimes', 'Often', 'Most days', 'Constantly'],
+      values: [0,1,2,3,4],
+      weight: 1
+    },
+    {
+      id: 'ptsd7',
+      section: 'Functioning',
+      text: 'How much does this impact your ability to work, maintain relationships, or live your daily life?',
+      sub: '',
+      type: 'single',
+      options: ['Minimal impact','It\'s noticeable but I manage','Significant — it limits what I can do','Severe — I struggle to function'],
+      scores: [0,1,2,3],
+      weight: 2
+    }
+  ],
+
+  pain: [
+    {
+      id: 'pain1',
+      section: 'Pain intensity',
+      text: 'On average, how would you rate your pain over the past week?',
+      sub: '0 = no pain, 10 = worst possible pain.',
+      type: 'scale',
+      labels: ['0-2 (mild)', '3-4', '5-6 (moderate)', '7-8', '9-10 (severe)'],
+      values: [0,1,2,3,4],
+      weight: 2
+    },
+    {
+      id: 'pain2',
+      section: 'Duration',
+      text: 'How long have you been living with this pain?',
+      sub: '',
+      type: 'single',
+      options: ['Less than 3 months','3-6 months','6 months to 2 years','2-5 years','More than 5 years'],
+      scores: [0,0,1,2,3],
+      weight: 1
+    },
+    {
+      id: 'pain3',
+      section: 'Sleep',
+      text: 'How much does pain disrupt your sleep?',
+      sub: '',
+      type: 'scale',
+      labels: ['Not at all', 'Occasionally', 'Several nights/wk', 'Most nights', 'Every night'],
+      values: [0,1,2,3,4],
+      weight: 1.5
+    },
+    {
+      id: 'pain4',
+      section: 'Activity',
+      text: 'How much does pain limit your daily activities — work, movement, household tasks?',
+      sub: '',
+      type: 'single',
+      options: ['Minimal limitation','Some limitation — I modify what I do','Significant — I can\'t do many things I want','Severe — I\'m mostly limited to home or bed'],
+      scores: [0,1,2,3],
+      weight: 2
+    },
+    {
+      id: 'pain5',
+      section: 'Mood impact',
+      text: 'Has living with chronic pain affected your mood or mental wellbeing?',
+      sub: '',
+      type: 'single',
+      options: ['Not really — I stay positive','Somewhat — it gets to me sometimes','Significantly — I often feel hopeless or depressed','Severely — the emotional pain is as bad as the physical'],
+      scores: [0,1,2,3],
+      weight: 1.5
+    },
+    {
+      id: 'pain6',
+      section: 'Prior treatment',
+      text: 'What treatments have you already tried for your pain?',
+      sub: 'Select all that apply.',
+      type: 'multi',
+      options: ['Over-the-counter pain medication','Prescription pain medication (opioids, NSAIDs)','Physical therapy','Nerve blocks or injections','Antidepressants for pain','Anticonvulsants (gabapentin, pregabalin)','Acupuncture or alternative therapies','None yet'],
+      weight: 0.5
+    },
+    {
+      id: 'pain7',
+      section: 'Functioning',
+      text: 'How would you describe your quality of life right now because of pain?',
+      sub: '',
+      type: 'single',
+      options: ['Still good — I manage','Reduced but acceptable','Poor — I\'ve had to give up a lot','Very poor — I feel like I\'ve lost who I was'],
+      scores: [0,1,2,3],
+      weight: 1.5
+    }
+  ]
+};
+
+// Shared follow-up questions (added after condition-specific)
+const sharedQuestions = [
+  {
+    id: 'shared1',
+    section: 'Support system',
+    text: 'How would you describe your support system — people who know what you\'re going through?',
+    sub: '',
+    type: 'single',
+    options: ['Strong — I have people I can lean on','Some support but limited','Mostly alone in dealing with this','No support at all'],
+    scores: [0,1,2,3],
+    weight: 0.5
+  },
+  {
+    id: 'shared2',
+    section: 'Goals',
+    text: 'What does success look like for you? What do you most want to get back?',
+    sub: 'Select the one that matters most right now.',
+    type: 'single',
+    options: ['Sleeping through the night','Being present with family or loved ones','Returning to work or normal functioning','Feeling like myself again','Reducing or eliminating medication','Getting out of pain'],
+    scores: [0,0,0,0,0,0],
+    weight: 0
+  }
+];
+
+let questions = [];
+let currentQ = 0;
+let answers = {};
+let historyStack = ['intro'];
+
+function startAssessment() {
+  const bank = questionBanks[condition] || questionBanks['depression'];
+  questions = [...bank, ...sharedQuestions];
+  currentQ = 0;
+  showQuestion(0);
+}
+
+function showQuestion(idx) {
+  document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+  const qStep = document.getElementById('step-q');
+  qStep.classList.add('active');
+
+  const q = questions[idx];
+  const pct = Math.round(4 + (idx / questions.length) * 90);
+  document.getElementById('progress').style.width = pct + '%';
+
+  let html = '';
+  html += `<div class="q-label">Section ${idx+1} of ${questions.length} — ${q.section}</div>`;
+  html += `<div class="q-text">${q.text}</div>`;
+  if(q.sub) html += `<div class="q-sub">${q.sub}</div>`;
+
+  if(q.type === 'scale') {
+    html += `<div class="scale-wrap">
+      <div class="scale-labels">
+        <span>${q.labels[0]}</span>
+        <span>${q.labels[Math.floor(q.labels.length/2)]}</span>
+        <span>${q.labels[q.labels.length-1]}</span>
+      </div>
+      <div class="scale-options">`;
+    q.labels.forEach((label, i) => {
+      const saved = answers[q.id];
+      const sel = saved !== undefined && saved.idx === i ? 'selected' : '';
+      html += `<button class="scale-btn ${sel}" onclick="selectScale(this, ${i}, ${q.values[i]}, '${q.id}')">${i+1}</button>`;
+    });
+    html += `</div></div>`;
+    if(q.crisis) {
+      html += `<div class="crisis-box"><div class="crisis-title">If you are in immediate danger</div><div class="crisis-text">Please call or text 988 (Suicide and Crisis Lifeline) or 911. This assessment is not a crisis service.</div></div>`;
+    }
+  }
+
+  if(q.type === 'single') {
+    html += `<div class="single-list">`;
+    q.options.forEach((opt, i) => {
+      const saved = answers[q.id];
+      const sel = saved !== undefined && saved.idx === i ? 'selected' : '';
+      html += `<button class="single-btn ${sel}" onclick="selectSingle(this, ${i}, '${q.id}', ${q.scores[i]})">
+        <div class="radio"></div>${opt}
+      </button>`;
+    });
+    html += `</div>`;
+    if(q.crisis) {
+      html += `<div class="crisis-box"><div class="crisis-title">If you are in immediate danger</div><div class="crisis-text">Please call or text 988 (Suicide and Crisis Lifeline) or 911.</div></div>`;
+    }
+  }
+
+  if(q.type === 'multi') {
+    html += `<div class="multi-list" id="multi-${q.id}">`;
+    q.options.forEach((opt, i) => {
+      const saved = answers[q.id];
+      const sel = saved && saved.selected && saved.selected.includes(i) ? 'selected' : '';
+      html += `<button class="multi-btn ${sel}" onclick="toggleMultiQ(this, ${i}, '${q.id}')">
+        <div class="checkbox"></div>${opt}
+      </button>`;
+    });
+    html += `</div>`;
+  }
+
+  html += `<div class="btn-row">`;
+  if(idx > 0) html += `<button class="btn-back" onclick="prevQ()">Back</button>`;
+  
+  const hasAnswer = answers[q.id] !== undefined;
+  const isMulti = q.type === 'multi';
+  html += `<button class="btn-next" id="btn-q" ${!hasAnswer && !isMulti ? 'disabled' : ''} onclick="nextQ()">
+    ${idx === questions.length - 1 ? 'See my results' : 'Continue'}
+  </button>`;
+  html += `</div>`;
+
+  qStep.innerHTML = html;
+}
+
+function selectScale(btn, idx, value, qid) {
+  btn.closest('.scale-options').querySelectorAll('.scale-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  answers[qid] = {idx, value};
+  document.getElementById('btn-q').disabled = false;
+}
+
+function selectSingle(btn, idx, qid, score) {
+  btn.closest('.single-list').querySelectorAll('.single-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  answers[qid] = {idx, value: score};
+  document.getElementById('btn-q').disabled = false;
+  // Auto-advance after short delay for single select
+  setTimeout(() => {
+    if(currentQ < questions.length - 1) nextQ();
+  }, 350);
+}
+
+function toggleMultiQ(btn, idx, qid) {
+  btn.classList.toggle('selected');
+  if(!answers[qid]) answers[qid] = {selected: []};
+  const list = answers[qid].selected;
+  if(list.includes(idx)) answers[qid].selected = list.filter(i => i !== idx);
+  else answers[qid].selected.push(idx);
+  answers[qid].value = 0; // multi doesn't score
+  const btn2 = document.getElementById('btn-q');
+  if(btn2) btn2.disabled = false;
+}
+
+function nextQ() {
+  if(currentQ < questions.length - 1) {
+    currentQ++;
+    showQuestion(currentQ);
+  } else {
+    showResult();
+  }
+}
+
+function prevQ() {
+  if(currentQ > 0) {
+    currentQ--;
+    showQuestion(currentQ);
+  } else {
+    document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+    document.getElementById('step-intro').classList.add('active');
+    document.getElementById('progress').style.width = '4%';
+  }
+}
+
+function showResult() {
+  document.getElementById('progress').style.width = '100%';
+  
+  // Calculate score
+  const bank = questionBanks[condition] || questionBanks['depression'];
+  let totalScore = 0;
+  let maxScore = 0;
+  let sections = {};
+
+  bank.forEach(q => {
+    const ans = answers[q.id];
+    if(ans && ans.value !== undefined) {
+      const weighted = ans.value * q.weight;
+      totalScore += weighted;
+      maxScore += 4 * q.weight;
+      if(!sections[q.section]) sections[q.section] = {score: 0, max: 0};
+      sections[q.section].score += weighted;
+      sections[q.section].max += 4 * q.weight;
+    }
+  });
+
+  const pct = maxScore > 0 ? Math.round((totalScore / maxScore) * 100) : 0;
+  let severity, color, titleText, subText;
+  
+  if(pct < 25) { severity = 'Mild'; color = '#4a7c6a'; titleText = 'Mild symptoms detected.'; subText = 'Your responses suggest mild symptoms. Ketamine therapy can be effective even at this stage — early intervention often leads to the best outcomes.'; }
+  else if(pct < 50) { severity = 'Moderate'; color = '#e08c2a'; titleText = 'Moderate symptoms detected.'; subText = 'Your responses indicate moderate impact on your daily life. This is a strong indicator for ketamine therapy. Many patients at this level see significant improvement within weeks.'; }
+  else if(pct < 75) { severity = 'Significant'; color = '#c0542a'; titleText = 'Significant symptoms detected.'; subText = 'Your responses show significant impact across multiple areas. Ketamine therapy has shown strong results for people with your profile, especially where other treatments haven\'t worked.'; }
+  else { severity = 'Severe'; color = '#c0392b'; titleText = 'Severe symptoms detected.'; subText = 'Your responses indicate severe, significant impact on your quality of life. You deserve real help. A physician will review your assessment as a priority and reach out within 24 hours.'; }
+
+  document.getElementById('score-num').textContent = severity;
+  document.getElementById('score-num').style.fontSize = '32px';
+  document.getElementById('score-label').textContent = 'Symptom severity';
+  document.getElementById('result-title').textContent = titleText;
+  document.getElementById('result-sub').textContent = subText;
+
+  // Breakdown by section
+  let breakdownHtml = '<div style="font-size:12px;font-weight:700;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;margin-bottom:12px;">Area breakdown</div>';
+  Object.entries(sections).forEach(([section, data]) => {
+    if(section === 'Goals' || section === 'Support system') return;
+    const sectionPct = data.max > 0 ? Math.round((data.score / data.max) * 100) : 0;
+    let level = sectionPct < 25 ? 'Low' : sectionPct < 50 ? 'Moderate' : sectionPct < 75 ? 'High' : 'Severe';
+    breakdownHtml += `<div class="breakdown-row"><div class="breakdown-label">${section}</div><div class="breakdown-val">${level}</div></div>`;
+  });
+  document.getElementById('result-breakdown').innerHTML = breakdownHtml;
+
+  document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+  document.getElementById('step-result').classList.add('active');
+}
+</script>
+</body>
+</html>
