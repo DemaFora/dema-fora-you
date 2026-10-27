@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DemaFora You — Patient Intake</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --green:#3d7a5c;
+  --green-light:#6aab85;
+  --green-pale:#e8f4ed;
+  --cream:#faf8f3;
+  --cream-2:#f2ede4;
+  --white:#ffffff;
+  --ink:#1a2118;
+  --muted:#5a6b5a;
+  --border:#d8e8d8;
+  --red:#d94a4a;
+}
+body{font-family:'Inter',sans-serif;background:var(--cream);color:var(--ink);min-height:100vh;display:flex;flex-direction:column;}
+
+/* NAV */
+nav{background:var(--white);border-bottom:1px solid var(--border);padding:0 32px;height:60px;display:flex;align-items:center;justify-content:space-between;}
+.nav-logo{font-size:18px;font-weight:800;letter-spacing:-0.5px;}
+.nav-logo span{color:var(--green);}
+.nav-secure{font-size:12px;color:var(--muted);display:flex;align-items:center;gap:6px;}
+.nav-secure::before{content:'';font-size:11px;}
+
+/* PROGRESS */
+.progress-bar{background:var(--border);height:4px;width:100%;}
+.progress-fill{background:var(--green);height:4px;transition:width .4s ease;}
+
+/* MAIN */
+.intake-wrap{flex:1;display:flex;align-items:center;justify-content:center;padding:40px 24px;}
+.intake-card{background:var(--white);border:1px solid var(--border);border-radius:20px;padding:48px 40px;max-width:600px;width:100%;box-shadow:0 4px 24px rgba(61,122,92,0.07);}
+@media(max-width:600px){.intake-card{padding:32px 24px;}}
+
+.step{display:none;}
+.step.active{display:block;}
+
+.step-label{font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--green);margin-bottom:10px;}
+.step-question{font-size:22px;font-weight:800;letter-spacing:-0.5px;color:var(--ink);line-height:1.25;margin-bottom:8px;}
+.step-sub{font-size:14px;color:var(--muted);margin-bottom:28px;line-height:1.6;}
+
+/* OPTIONS */
+.options{display:flex;flex-direction:column;gap:10px;}
+.options.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+@media(max-width:480px){.options.grid-2{grid-template-columns:1fr;}}
+
+.option-btn{background:var(--cream);border:1.5px solid var(--border);border-radius:12px;padding:14px 18px;font-size:15px;font-weight:600;color:var(--ink);cursor:pointer;text-align:left;transition:all .15s;display:flex;align-items:center;gap:10px;line-height:1.3;}
+.option-btn:hover{border-color:var(--green);background:var(--green-pale);}
+.option-btn.selected{border-color:var(--green);background:var(--green-pale);color:var(--green);}
+.option-btn.disqualify:hover{border-color:var(--red);background:#fef0f0;}
+.option-icon{display:none;}
+.option-label{flex:1;}
+.option-check{width:20px;height:20px;border:2px solid var(--border);border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .15s;}
+.option-btn.selected .option-check{background:var(--green);border-color:var(--green);}
+.option-btn.selected .option-check::after{content:'✓';color:#fff;font-size:11px;font-weight:700;}
+
+/* MULTI SELECT */
+.multi-note{font-size:12px;color:var(--muted);margin-bottom:16px;font-style:italic;}
+.multi-btn{display:flex;align-items:center;gap:12px;padding:14px 18px;border:1.5px solid var(--border);border-radius:12px;background:var(--cream);cursor:pointer;font-size:14px;font-weight:500;color:var(--ink);transition:all .15s;text-align:left;line-height:1.4;width:100%;}
+.multi-btn:hover{border-color:var(--green-light);background:var(--green-pale);}
+.multi-btn.selected{border-color:var(--green);background:var(--green-pale);}
+.multi-btn.none-btn{font-weight:700;color:var(--green);}
+.checkbox{width:20px;height:20px;border:2px solid var(--border);border-radius:5px;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .15s;}
+.multi-btn.selected .checkbox{background:var(--green);border-color:var(--green);}
+.multi-btn.selected .checkbox::after{content:'✓';color:#fff;font-size:10px;font-weight:700;}
+
+/* NAV BUTTONS */
+.btn-row{display:flex;gap:12px;margin-top:28px;align-items:center;}
+.btn-next{background:var(--green);color:#fff;border:none;padding:14px 28px;border-radius:100px;font-size:15px;font-weight:700;cursor:pointer;transition:background .2s;flex:1;}
+.btn-next:hover{background:#2d6449;}
+.btn-next:disabled{background:var(--border);cursor:not-allowed;color:var(--muted);}
+.btn-back{background:transparent;color:var(--muted);border:none;padding:14px 18px;font-size:14px;font-weight:500;cursor:pointer;}
+.btn-back:hover{color:var(--ink);}
+
+/* DISQUALIFY SCREEN */
+.disq-screen{text-align:center;padding:20px 0;}
+.disq-icon{font-size:48px;margin-bottom:16px;}
+.disq-title{font-size:22px;font-weight:800;color:var(--ink);margin-bottom:10px;}
+.disq-text{font-size:15px;color:var(--muted);line-height:1.65;max-width:420px;margin:0 auto 24px;}
+.disq-link{color:var(--green);font-weight:600;font-size:14px;}
+
+/* RESULT SCREEN */
+.result-screen{text-align:center;}
+.result-badge{background:var(--green-pale);border:1.5px solid var(--green);border-radius:100px;display:inline-flex;align-items:center;gap:8px;padding:8px 20px;font-size:13px;font-weight:700;color:var(--green);margin-bottom:20px;}
+.result-title{font-size:26px;font-weight:900;letter-spacing:-1px;color:var(--ink);margin-bottom:10px;}
+.result-sub{font-size:15px;color:var(--muted);line-height:1.65;margin-bottom:28px;}
+.result-plan{background:var(--cream);border:1.5px solid var(--border);border-radius:16px;padding:24px;text-align:left;margin-bottom:24px;}
+.result-plan-label{font-size:11px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-bottom:12px;}
+.result-item{display:flex;align-items:flex-start;gap:10px;margin-bottom:10px;font-size:14px;color:var(--ink);}
+.result-dot{width:6px;height:6px;border-radius:50%;background:var(--green);margin-top:5px;flex-shrink:0;}
+.btn-cta{background:var(--green);color:#fff;border:none;padding:16px 32px;border-radius:100px;font-size:16px;font-weight:700;cursor:pointer;width:100%;transition:background .2s;}
+.btn-cta:hover{background:#2d6449;}
+.result-note{font-size:12px;color:var(--muted);margin-top:12px;}
+
+/* INPUT */
+.text-input{width:100%;padding:14px 18px;border:1.5px solid var(--border);border-radius:12px;font-size:15px;font-family:'Inter',sans-serif;color:var(--ink);background:var(--cream);outline:none;transition:border .15s;}
+.text-input:focus{border-color:var(--green);}
+.input-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+@media(max-width:480px){.input-row{grid-template-columns:1fr;}}
+.input-label{font-size:12px;font-weight:600;color:var(--muted);margin-bottom:6px;}
+
+/* FOOTER */
+footer{text-align:center;padding:20px;font-size:11px;color:var(--muted);}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">DemaFora <span>You</span></div>
+  <div class="nav-secure">Secure intake</div>
+</nav>
+
+<div class="progress-bar">
+  <div class="progress-fill" id="progress" style="width:8%"></div>
+</div>
+
+<div class="intake-wrap">
+<div class="intake-card">
+
+<!-- STEP 1: CONDITION -->
+<div class="step active" id="step-1">
+  <div class="step-label">Step 1 of 8</div>
+  <div class="step-question">What brings you here today?</div>
+  <div class="step-sub">Select what applies to you. This helps us personalize your care plan.</div>
+  <div class="options">
+    <button class="option-btn" onclick="selectCondition('depression')">
+      
+      <span class="option-label">Depression or low mood — I feel stuck, hopeless, or can't enjoy things</span>
+      <span class="option-check"></span>
+    </button>
+    <button class="option-btn" onclick="selectCondition('anxiety')">
+      
+      <span class="option-label">Anxiety — constant worry, panic, or feeling overwhelmed</span>
+      <span class="option-check"></span>
+    </button>
+    <button class="option-btn" onclick="selectCondition('ptsd')">
+      
+      <span class="option-label">PTSD or trauma — past events that still affect my daily life</span>
+      <span class="option-check"></span>
+    </button>
+    <button class="option-btn" onclick="selectCondition('pain')">
+      
+      <span class="option-label">Chronic pain — fibromyalgia, neuropathy, or persistent physical pain</span>
+      <span class="option-check"></span>
+    </button>
+    <button class="option-btn" onclick="selectCondition('multiple')">
+      
+      <span class="option-label">More than one of the above</span>
+      <span class="option-check"></span>
+    </button>
+  </div>
+</div>
+
+<!-- STEP 2: PRIOR TREATMENT (adaptive) -->
+<div class="step" id="step-2">
+  <div class="step-label">Step 2 of 8</div>
+  <div class="step-question" id="q2-title">Have you tried treatment before?</div>
+  <div class="step-sub" id="q2-sub">Select all that apply to your history.</div>
+  <div class="multi-note">Select all that apply</div>
+  <div class="options" id="q2-options">
+    <button class="multi-btn none-btn" onclick="toggleMulti(this, 'none')">
+      <div class="checkbox"></div>No, this is my first time seeking treatment
+    </button>
+    <button class="multi-btn" onclick="toggleMulti(this)">
+      <div class="checkbox"></div>Yes — I've tried antidepressants or anti-anxiety medication
+    </button>
+    <button class="multi-btn" onclick="toggleMulti(this)">
+      <div class="checkbox"></div>Yes — I've been in therapy or counseling
+    </button>
+    <button class="multi-btn" onclick="toggleMulti(this)">
+      <div class="checkbox"></div>Yes — I've tried other treatments and nothing has worked well
+    </button>
+    <button class="multi-btn" onclick="toggleMulti(this)">
+      <div class="checkbox"></div>I'm currently on medication but want additional support
+    </button>
+  </div>
+  <div class="btn-row">
+    <button class="btn-back" onclick="goBack()">Back</button>
+    <button class="btn-next" id="btn-2" disabled onclick="nextStep(3)">Continue</button>
+  </div>
+</div>
+
+<!-- STEP 3: SEVERITY (adaptive by condition) -->
+<div class="step" id="step-3">
+  <div class="step-label">Step 3 of 8</div>
+  <div class="step-question" id="q3-title">How much is this affecting your daily life?</div>
+  <div class="step-sub">Be honest — this helps us match you with the right protocol.</div>
+  <div class="options">
+    <button class="option-btn" onclick="selectOption(this, nextStep.bind(null, 4))">
+      <span class="option-label">Mildly — I manage okay but it's always there in the background</span>
+      <span class="option-check"></span>
+    </button>
+    <button class="option-btn" onclick="selectOption(this, nextStep.bind(null, 4))">
+      <span class="option-label">Moderately — it affects my work, relationships, or sleep regularly</span>
+      <span class="option-check"></span>
+    </button>
+    <button class="option-btn" onclick="selectOption(this, nextStep.bind(null, 4))">
+      <span class="option-label">Severely — I struggle to function most days</span>
+      <span class="option-check"></span>
+    </button>
+    <button class="option-btn" onclick="selectOption(this, nextStep.bind(null, 4))">
+      <span class="option-label">I'm in crisis — I need help urgently</span>
+      <span class="option-check"></span>
+    </button>
+  </div>
+  <div class="btn-row">
+    <button class="btn-back" onclick="goBack()">Back</button>
+  </div>
+</div>
+
+<!-- STEP 4: MEDICAL DISQUALIFIERS -->
+<div class="step" id="step-4">
+  <div class="step-label">Step 4 of 9</div>
+  <div class="step-question">Do any of these apply to you?</div>
+  <div class="step-sub">These are medical factors our physicians review for safety. Select all that apply.</div>
+  <div class="multi-note">Select all that apply</div>
+  <div class="options">
+    <button class="multi-btn none-btn" onclick="toggleMulti(this, 'none')">
+      <div class="checkbox"></div>None of these apply to me
+    </button>
+    <button class="multi-btn disqualify" onclick="toggleMulti(this, 'disq-medical')">
+      <div class="checkbox"></div>Uncontrolled high blood pressure despite treatment
+    </button>
+    <button class="multi-btn disqualify" onclick="toggleMulti(this, 'disq-medical')">
+      <div class="checkbox"></div>Severe heart failure or active cardiac condition
+    </button>
+    <button class="multi-btn disqualify" onclick="toggleMulti(this, 'disq-medical')">
+      <div class="checkbox"></div>History of cerebral hemorrhage or brain bleeding
+    </button>
+    <button class="multi-btn disqualify" onclick="toggleMulti(this, 'disq-medical')">
+      <div class="checkbox"></div>Aneurysm or abnormal blood vessel malformation
+    </button>
+    <button class="multi-btn disqualify" onclick="toggleMulti(this, 'disq-medical')">
+      <div class="checkbox"></div>Epilepsy or seizure disorder
+    </button>
+    <button class="multi-btn disqualify" onclick="toggleMulti(this, 'disq-medical')">
+      <div class="checkbox"></div>Allergy to ketamine
+    </button>
+    <button class="multi-btn" onclick="toggleMulti(this)">
+      <div class="checkbox"></div>Currently taking seizure medication
+    </button>
+  </div>
+  <div class="btn-row">
+    <button class="btn-back" onclick="goBack()">Back</button>
+    <button class="btn-next" id="btn-4" disabled onclick="checkMedicalDisq()">Continue</button>
+  </div>
+</div>
+
+<!-- STEP 4B: MEDICAL HISTORY (informational, not disqualifying) -->
+<div class="step" id="step-4b">
+  <div class="step-label">Step 5 of 9</div>
+  <div class="step-question">Do you have a history of any of the following?</div>
+  <div class="step-sub">This information goes to your physician. It does not affect your eligibility.</div>
+  <div class="multi-note">Select all that apply</div>
+  <div class="options">
+    <button class="multi-btn none-btn" onclick="toggleMulti(this, 'none')">
+      <div class="checkbox"></div>None apply
+    </button>
+    <button class="multi-btn" onclick="toggleMulti(this)">
+      <div class="checkbox"></div>Diabetes (type 1 or type 2)
+    </button>
+    <button class="multi-btn" onclick="toggleMulti(this)">
+      <div class="checkbox"></div>Controlled high blood pressure
+    </button>
+    <button class="multi-btn" onclick="toggleMulti(this)">
+      <div class="checkbox"></div>Respiratory condition (asthma, COPD, sleep apnea)
+    </button>
+    <button class="multi-btn" onclick="toggleMulti(this)">
+      <div class="checkbox"></div>Liver disease or abnormal liver function
+    </button>
+    <button class="multi-btn" onclick="toggleMulti(this)">
+      <div class="checkbox"></div>Kidney disease
+    </button>
+    <button class="multi-btn" onclick="toggleMulti(this)">
+      <div class="checkbox"></div>Thyroid disorder
+    </button>
+    <button class="multi-btn" onclick="toggleMulti(this)">
+      <div class="checkbox"></div>Autoimmune condition (lupus, MS, rheumatoid arthritis)
+    </button>
+    <button class="multi-btn" onclick="toggleMulti(this)">
+      <div class="checkbox"></div>Chronic acid reflux or gastrointestinal condition
+    </button>
+    <button class="multi-btn" onclick="toggleMulti(this)">
+      <div class="checkbox"></div>History of stroke or TIA
+    </button>
+    <button class="multi-btn" onclick="toggleMulti(this)">
+      <div class="checkbox"></div>Currently pregnant or breastfeeding
+    </button>
+  </div>
+  <div class="btn-row">
+    <button class="btn-back" onclick="goBack()">Back</button>
+    <button class="btn-next" id="btn-4b" disabled onclick="nextStep(5)">Continue</button>
+  </div>
+</div>
+
+<!-- STEP 5: PSYCHIATRIC DISQUALIFIERS -->
+<div class="step" id="step-5">
+  <div class="step-label">Step 6 of 9</div>
+  <div class="step-question">A few more safety questions.</div>
+  <div class="step-sub">Our physicians require this information before prescribing. Your answers are confidential.</div>
+  <div class="multi-note">Select all that apply</div>
+  <div class="options">
+    <button class="multi-btn none-btn" onclick="toggleMulti(this, 'none')">
+      <div class="checkbox"></div>None of these apply to me
+    </button>
+    <button class="multi-btn disqualify" onclick="toggleMulti(this, 'disq-psych')">
+      <div class="checkbox"></div>Personal history of psychosis, schizophrenia, or schizoaffective disorder
+    </button>
+    <button class="multi-btn disqualify" onclick="toggleMulti(this, 'disq-psych')">
+      <div class="checkbox"></div>Active manic symptoms or bipolar disorder type 1
+    </button>
+    <button class="multi-btn disqualify" onclick="toggleMulti(this, 'disq-psych')">
+      <div class="checkbox"></div>Active addiction to opioids or methamphetamine
+    </button>
+    <button class="multi-btn" onclick="toggleMulti(this)">
+      <div class="checkbox"></div>Currently on methadone, Subutex, or Sublocade
+    </button>
+    <button class="multi-btn" onclick="toggleMulti(this)">
+      <div class="checkbox"></div>History of substance use disorder (in recovery)
+    </button>
+  </div>
+  <div class="btn-row">
+    <button class="btn-back" onclick="goBack()">Back</button>
+    <button class="btn-next" id="btn-5" disabled onclick="checkPsychDisq()">Continue</button>
+  </div>
+</div>
+
+<!-- STEP 6: CURRENTLY ON KETAMINE? -->
+<div class="step" id="step-6">
+  <div class="step-label">Step 7 of 9</div>
+  <div class="step-question">Have you received ketamine treatment before?</div>
+  <div class="step-sub">This helps us understand where you are in your treatment journey.</div>
+  <div class="options">
+    <button class="option-btn" onclick="selectOption(this, nextStep.bind(null, 7))">
+      <span class="option-label">No — this is my first time exploring ketamine therapy</span>
+      <span class="option-check"></span>
+    </button>
+    <button class="option-btn" onclick="selectOption(this, nextStep.bind(null, 7))">
+      <span class="option-label">Yes — I've done IV infusions at a clinic before</span>
+      <span class="option-check"></span>
+    </button>
+    <button class="option-btn" onclick="selectOption(this, nextStep.bind(null, 7))">
+      <span class="option-label">Yes — through another telehealth provider (looking to switch)</span>
+      <span class="option-check"></span>
+    </button>
+    <button class="option-btn" onclick="selectOption(this, nextStep.bind(null, 7))">
+      <span class="option-label">I'm currently on a protocol but want to learn more</span>
+      <span class="option-check"></span>
+    </button>
+  </div>
+  <div class="btn-row">
+    <button class="btn-back" onclick="goBack()">Back</button>
+  </div>
+</div>
+
+<!-- STEP 7: STATE + AGE -->
+<div class="step" id="step-7">
+  <div class="step-label">Step 8 of 9</div>
+  <div class="step-question">Almost there — a few basics.</div>
+  <div class="step-sub">We need your state to confirm provider availability in your area.</div>
+  <div style="margin-bottom:16px;">
+    <div class="input-label">State</div>
+    <select class="text-input" id="state-select" onchange="checkStep7()">
+      <option value="">Select your state</option>
+      <option>Alabama</option><option>Alaska</option><option>Arizona</option><option>Arkansas</option>
+      <option>California</option><option>Colorado</option><option>Connecticut</option>
+      <option>Delaware</option><option>Florida</option><option>Georgia</option><option>Hawaii</option>
+      <option>Idaho</option><option>Illinois</option><option>Indiana</option><option>Iowa</option>
+      <option>Kansas</option><option>Kentucky</option><option>Louisiana</option><option>Maine</option>
+      <option>Maryland</option><option>Massachusetts</option><option>Michigan</option>
+      <option>Minnesota</option><option>Mississippi</option><option>Missouri</option>
+      <option>Montana</option><option>Nebraska</option><option>Nevada</option>
+      <option>New Hampshire</option><option>New Jersey</option><option>New Mexico</option>
+      <option>New York</option><option>North Carolina</option><option>North Dakota</option>
+      <option>Ohio</option><option>Oklahoma</option><option>Oregon</option>
+      <option>Pennsylvania</option><option>Rhode Island</option><option>South Carolina</option>
+      <option>South Dakota</option><option>Tennessee</option><option>Texas</option>
+      <option>Utah</option><option>Vermont</option><option>Virginia</option>
+      <option>Washington</option><option>West Virginia</option><option>Wisconsin</option><option>Wyoming</option>
+    </select>
+  </div>
+  <div style="margin-bottom:16px;">
+    <div class="input-label">Age range</div>
+    <select class="text-input" id="age-select" onchange="checkStep7()">
+      <option value="">Select your age range</option>
+      <option>18-25</option><option>26-34</option><option>35-44</option>
+      <option>45-54</option><option>55-64</option><option>65-74</option><option>75+</option>
+    </select>
+  </div>
+  <div class="btn-row">
+    <button class="btn-back" onclick="goBack()">Back</button>
+    <button class="btn-next" id="btn-7" disabled onclick="nextStep(8)">Continue</button>
+  </div>
+</div>
+
+<!-- STEP 8: CONTACT -->
+<div class="step" id="step-8">
+  <div class="step-label">Step 9 of 9</div>
+  <div class="step-question">Where should we send your care plan?</div>
+  <div class="step-sub">A licensed provider will review your intake and reach out within 24 hours. No commitment required.</div>
+  <div class="input-row" style="margin-bottom:12px;">
+    <div>
+      <div class="input-label">First name</div>
+      <input class="text-input" type="text" id="fname" placeholder="First name" oninput="checkStep8()">
+    </div>
+    <div>
+      <div class="input-label">Last name</div>
+      <input class="text-input" type="text" id="lname" placeholder="Last name" oninput="checkStep8()">
+    </div>
+  </div>
+  <div style="margin-bottom:12px;">
+    <div class="input-label">Email address</div>
+    <input class="text-input" type="email" id="email" placeholder="your@email.com" oninput="checkStep8()">
+  </div>
+  <div style="margin-bottom:20px;">
+    <div class="input-label">How did you hear about us?</div>
+    <select class="text-input" id="attribution">
+      <option value="">Select one</option>
+      <option>Internet search</option><option>Instagram</option><option>TikTok</option>
+      <option>Facebook</option><option>Reddit</option><option>Podcast</option>
+      <option>Referred by a friend or family member</option>
+      <option>Referred by my therapist or doctor</option>
+      <option>Influencer</option><option>Other</option>
+    </select>
+  </div>
+  <div class="btn-row">
+    <button class="btn-back" onclick="goBack()">Back</button>
+    <button class="btn-next" id="btn-8" disabled onclick="showResult()">See my care plan</button>
+  </div>
+</div>
+
+<!-- DISQUALIFIED: MEDICAL -->
+<div class="step" id="step-disq-medical">
+  <div class="disq-screen">
+    
+    <div class="disq-title">We want to make sure you're safe.</div>
+    <div class="disq-text">Based on your answers, ketamine therapy may not be appropriate for you right now. We recommend speaking with your primary care physician about your options. If you have questions, our team is happy to help.</div>
+    <a href="tel:+18005551234" class="disq-link">Contact our care team</a>
+  </div>
+</div>
+
+<!-- DISQUALIFIED: PSYCH -->
+<div class="step" id="step-disq-psych">
+  <div class="disq-screen">
+    
+    <div class="disq-title">Thank you for being honest with us.</div>
+    <div class="disq-text">Based on your answers, a physician would need to evaluate you directly before we could proceed. Please reach out to our care team — we'll connect you with the right support.</div>
+    <a href="mailto:care@demaforahealth.com" class="disq-link">Email our care team</a>
+  </div>
+</div>
+
+<!-- RESULT -->
+<div class="step" id="step-result">
+  <div class="result-screen">
+    <div class="result-badge">You may qualify</div>
+    <div class="result-title">Good news — a care plan is ready for you.</div>
+    <div class="result-sub" id="result-sub">Based on your answers, ketamine therapy may be a strong option for you. A licensed provider will review your intake and reach out within 24 hours.</div>
+    <div class="result-plan">
+      <div class="result-plan-label">What happens next</div>
+      <div class="result-item"><div class="result-dot"></div>Physician reviews your intake (within 24 hrs)</div>
+      <div class="result-item"><div class="result-dot"></div>Telehealth consultation scheduled at your convenience</div>
+      <div class="result-item"><div class="result-dot"></div>If approved, prescription fulfilled by licensed U.S. pharmacy</div>
+      <div class="result-item"><div class="result-dot"></div>Medication delivered discreetly to your door</div>
+      <div class="result-item"><div class="result-dot"></div>Ongoing provider check-ins throughout your protocol</div>
+    </div>
+    <button class="btn-cta" onclick="alert('Thank you — a provider will reach out shortly.')">Complete my intake</button>
+    <div class="result-note">No commitment. Consultation included. All 50 states.</div>
+  </div>
+</div>
+
+</div>
+</div>
+
+<footer>DemaFora Health is a healthcare technology platform, not a medical provider or pharmacy. Clinical care provided by licensed independent physicians. Prescriptions fulfilled by licensed U.S. pharmacy. Results vary.</footer>
+
+<script>
+let currentStep = 1;
+let history = [1];
+let condition = '';
+let medDisq = false;
+let psychDisq = false;
+
+const progressMap = {1:8,2:18,3:28,4:40,'4b':50,5:60,6:70,7:80,8:90,'result':100,'disq-medical':100,'disq-psych':100};
+
+function showStep(id) {
+  document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+  const el = document.getElementById('step-' + id);
+  if(el) el.classList.add('active');
+  const pct = progressMap[id] || 8;
+  document.getElementById('progress').style.width = pct + '%';
+  window.scrollTo(0,0);
+}
+
+function nextStep(n) {
+  history.push(n);
+  currentStep = n;
+  showStep(n);
+}
+
+function goBack() {
+  if(history.length > 1) {
+    history.pop();
+    currentStep = history[history.length-1];
+    showStep(currentStep);
+  }
+}
+
+function selectCondition(c) {
+  condition = c;
+  // Adaptive step 2 question
+  const titles = {
+    depression: 'Have you tried treating your depression before?',
+    anxiety: 'Have you tried treating your anxiety before?',
+    ptsd: 'Have you sought treatment for PTSD or trauma before?',
+    pain: 'Have you tried treating your chronic pain before?',
+    multiple: 'Have you tried treatment for any of these before?'
+  };
+  const subs = {
+    depression: 'Understanding your history helps us find what might work where other things haven\'t.',
+    anxiety: 'Tell us about your treatment history so we can personalize your care plan.',
+    ptsd: 'Ketamine has shown strong results for trauma. Let us know what you\'ve already tried.',
+    pain: 'Ketamine therapy has helped many patients with treatment-resistant pain. Tell us your history.',
+    multiple: 'Select everything that applies to your treatment history.'
+  };
+  document.getElementById('q2-title').textContent = titles[c] || 'Have you tried treatment before?';
+  document.getElementById('q2-sub').textContent = subs[c] || 'Select all that apply to your history.';
+  nextStep(2);
+}
+
+function toggleMulti(btn, type) {
+  const parent = btn.closest('.options');
+  if(type === 'none') {
+    parent.querySelectorAll('.multi-btn').forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+  } else if(type && type.startsWith('disq')) {
+    // disqualifying option selected
+    parent.querySelector('.none-btn').classList.remove('selected');
+    btn.classList.toggle('selected');
+  } else {
+    parent.querySelector('.none-btn').classList.remove('selected');
+    btn.classList.toggle('selected');
+  }
+  // Enable next btn for this step
+  const anySelected = parent.querySelector('.multi-btn.selected');
+  const stepNum = btn.closest('.step').id.replace('step-','');
+  const nextBtn = document.getElementById('btn-' + stepNum);
+  if(nextBtn) nextBtn.disabled = !anySelected;
+}
+
+function selectOption(btn, callback) {
+  const parent = btn.closest('.options');
+  parent.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  setTimeout(callback, 250);
+}
+
+function checkMedicalDisq() {
+  const disqSelected = document.querySelectorAll('#step-4 .multi-btn.disqualify.selected');
+  if(disqSelected.length > 0) {
+    history.push('disq-medical');
+    showStep('disq-medical');
+  } else {
+    nextStep('4b');
+  }
+}
+
+function checkPsychDisq() {
+  const disqSelected = document.querySelectorAll('#step-5 .multi-btn.disqualify.selected');
+  if(disqSelected.length > 0) {
+    history.push('disq-psych');
+    showStep('disq-psych');
+  } else {
+    nextStep(6);
+  }
+}
+
+function checkStep7() {
+  const state = document.getElementById('state-select').value;
+  const age = document.getElementById('age-select').value;
+  document.getElementById('btn-7').disabled = !(state && age);
+}
+
+function checkStep8() {
+  const fname = document.getElementById('fname').value.trim();
+  const lname = document.getElementById('lname').value.trim();
+  const email = document.getElementById('email').value.trim();
+  const valid = fname && lname && email.includes('@');
+  document.getElementById('btn-8').disabled = !valid;
+}
+
+function showResult() {
+  const subs = {
+    depression: 'Based on your history with depression, ketamine therapy has shown 70-80% response rates in patients who haven\'t responded to traditional antidepressants. A physician will review your case today.',
+    anxiety: 'Ketamine therapy can provide rapid relief from anxiety symptoms, often within 72 hours. A licensed provider will review your intake and outline next steps.',
+    ptsd: 'Ketamine has shown strong clinical results for PTSD — especially for reducing emotional reactivity around traumatic memories. Your provider will walk you through a tailored protocol.',
+    pain: 'For chronic pain conditions like fibromyalgia and neuropathy, ketamine works differently than pain medication — targeting the nervous system\'s pain response. A physician will review your case shortly.',
+    multiple: 'Given the complexity of your symptoms, your physician will design a protocol that addresses all areas. Ketamine therapy often works well for overlapping conditions.'
+  };
+  document.getElementById('result-sub').textContent = subs[condition] || subs['depression'];
+  history.push('result');
+  showStep('result');
+}
+</script>
+</body>
+</html>
