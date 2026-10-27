@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Medical History Form | DemaFora You</title>
+<style>
+  :root { --sage: #4a7c6a; --cream: #faf9f6; --ink: #1a1a1a; --muted: #6b6b6b; --border: #e0ddd8; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Georgia', serif; background: var(--cream); color: var(--ink); line-height: 1.75; }
+  .doc-header { background: var(--sage); color: white; padding: 36px 24px; text-align: center; }
+  .doc-header .logo { font-size: 0.9rem; letter-spacing: 0.15em; text-transform: uppercase; opacity: 0.7; margin-bottom: 10px; font-family: Arial, sans-serif; }
+  .doc-header h1 { font-size: 1.6rem; font-weight: normal; }
+  .doc-header p { margin-top: 6px; font-size: 0.9rem; opacity: 0.8; font-style: italic; }
+  main { max-width: 760px; margin: 0 auto; padding: 40px 24px 80px; }
+  h2 { font-size: 1.05rem; font-family: Arial, sans-serif; text-transform: uppercase; letter-spacing: 0.08em; color: var(--sage); margin: 32px 0 12px; padding-bottom: 6px; border-bottom: 1px solid var(--border); }
+  .field-group { margin-bottom: 20px; }
+  label { display: block; font-family: Arial, sans-serif; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.07em; color: var(--muted); margin-bottom: 6px; }
+  .line { border-bottom: 1px solid #bbb; height: 32px; margin-bottom: 4px; }
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  .three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
+  @media (max-width: 540px) { .two-col, .three-col { grid-template-columns: 1fr; } }
+  .yn-row { display: flex; align-items: center; gap: 32px; margin-bottom: 6px; }
+  .yn-row span { font-family: Arial, sans-serif; font-size: 0.82rem; display: flex; align-items: center; gap: 8px; }
+  .check-box { width: 16px; height: 16px; border: 1.5px solid #999; display: inline-block; flex-shrink: 0; }
+  .condition-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 32px; margin: 8px 0 16px; font-family: Arial, sans-serif; font-size: 0.88rem; }
+  .condition-item { display: flex; align-items: center; gap: 10px; }
+  .tall-line { border-bottom: 1px solid #bbb; min-height: 60px; margin-bottom: 4px; }
+  .back-link { display: inline-block; margin-bottom: 24px; font-family: Arial, sans-serif; font-size: 0.85rem; color: var(--sage); text-decoration: none; }
+  .back-link:hover { text-decoration: underline; }
+  p.note { font-family: Arial, sans-serif; font-size: 0.82rem; color: var(--muted); margin-bottom: 20px; }
+  @media print { .back-link { display: none; } body { background: white; } }
+</style>
+</head>
+<body>
+<div class="doc-header">
+  <div class="logo">DemaFora You</div>
+  <h1>Medical History Form</h1>
+  <p>Complete fully — all information is confidential and protected under HIPAA</p>
+</div>
+<main>
+  <a class="back-link" href="/documents">&#8592; Back to Documents</a>
+  <p class="note">Please complete all sections. If a question does not apply, write N/A. Incomplete forms may delay your consultation.</p>
+
+  <h2>Personal Information</h2>
+  <div class="two-col">
+    <div class="field-group"><label>Legal Full Name</label><div class="line"></div></div>
+    <div class="field-group"><label>Date of Birth</label><div class="line"></div></div>
+  </div>
+  <div class="three-col">
+    <div class="field-group"><label>Sex at Birth</label><div class="line"></div></div>
+    <div class="field-group"><label>Gender Identity</label><div class="line"></div></div>
+    <div class="field-group"><label>Pronouns</label><div class="line"></div></div>
+  </div>
+  <div class="two-col">
+    <div class="field-group"><label>Phone Number</label><div class="line"></div></div>
+    <div class="field-group"><label>Email Address</label><div class="line"></div></div>
+  </div>
+  <div class="field-group"><label>Home Address</label><div class="line"></div></div>
+  <div class="two-col">
+    <div class="field-group"><label>State of Residence</label><div class="line"></div></div>
+    <div class="field-group"><label>Zip Code</label><div class="line"></div></div>
+  </div>
+  <div class="two-col">
+    <div class="field-group"><label>Emergency Contact Name</label><div class="line"></div></div>
+    <div class="field-group"><label>Emergency Contact Phone</label><div class="line"></div></div>
+  </div>
+  <div class="field-group"><label>Emergency Contact Relationship</label><div class="line"></div></div>
+
+  <h2>Primary Reason for Seeking Treatment</h2>
+  <div class="condition-grid">
+    <div class="condition-item"><div class="check-box"></div> Depression</div>
+    <div class="condition-item"><div class="check-box"></div> Anxiety</div>
+    <div class="condition-item"><div class="check-box"></div> PTSD</div>
+    <div class="condition-item"><div class="check-box"></div> Chronic Pain</div>
+    <div class="condition-item"><div class="check-box"></div> OCD</div>
+    <div class="condition-item"><div class="check-box"></div> Suicidal Ideation (past/present)</div>
+    <div class="condition-item"><div class="check-box"></div> Grief / Trauma</div>
+    <div class="condition-item"><div class="check-box"></div> Other</div>
+  </div>
+  <div class="field-group"><label>Describe your primary concern and how long you have experienced it</label><div class="tall-line"></div></div>
+
+  <h2>Current Medications</h2>
+  <p class="note">List all prescription medications, over-the-counter drugs, supplements, and herbal products.</p>
+  <div class="field-group"><label>Medication / Dose / Frequency</label><div class="tall-line"></div><div class="tall-line"></div></div>
+  <div class="field-group"><label>Prescribing Provider (for each medication, if applicable)</label><div class="tall-line"></div></div>
+
+  <h2>Allergies</h2>
+  <div class="field-group"><label>Drug Allergies and Reactions</label><div class="tall-line"></div></div>
+  <div class="field-group"><label>Other Allergies</label><div class="line"></div></div>
+
+  <h2>Medical History</h2>
+  <p class="note">Check all that apply — past or present.</p>
+  <div class="condition-grid">
+    <div class="condition-item"><div class="check-box"></div> High Blood Pressure</div>
+    <div class="condition-item"><div class="check-box"></div> Heart Disease</div>
+    <div class="condition-item"><div class="check-box"></div> Stroke or TIA</div>
+    <div class="condition-item"><div class="check-box"></div> Thyroid Disorder</div>
+    <div class="condition-item"><div class="check-box"></div> Diabetes</div>
+    <div class="condition-item"><div class="check-box"></div> Kidney Disease</div>
+    <div class="condition-item"><div class="check-box"></div> Liver Disease</div>
+    <div class="condition-item"><div class="check-box"></div> Seizure Disorder</div>
+    <div class="condition-item"><div class="check-box"></div> Glaucoma / Eye Pressure</div>
+    <div class="condition-item"><div class="check-box"></div> Traumatic Brain Injury</div>
+    <div class="condition-item"><div class="check-box"></div> Cancer (current or history)</div>
+    <div class="condition-item"><div class="check-box"></div> Chronic Pain Condition</div>
+    <div class="condition-item"><div class="check-box"></div> Autoimmune Condition</div>
+    <div class="condition-item"><div class="check-box"></div> Sleep Disorder</div>
+    <div class="condition-item"><div class="check-box"></div> Other (describe below)</div>
+  </div>
+  <div class="field-group"><label>Additional Medical History Details</label><div class="tall-line"></div></div>
+
+  <h2>Psychiatric History</h2>
+  <div class="field-group">
+    <label>Have you ever been diagnosed with a psychiatric condition?</label>
+    <div class="yn-row"><span><div class="check-box"></div> Yes</span><span><div class="check-box"></div> No</span></div>
+  </div>
+  <div class="field-group"><label>If yes, list diagnoses and approximate dates</label><div class="tall-line"></div></div>
+  <div class="field-group">
+    <label>Have you ever been hospitalized for a psychiatric reason?</label>
+    <div class="yn-row"><span><div class="check-box"></div> Yes</span><span><div class="check-box"></div> No</span></div>
+  </div>
+  <div class="field-group"><label>If yes, when and for what reason?</label><div class="tall-line"></div></div>
+  <div class="field-group">
+    <label>History of psychosis, schizophrenia, or bipolar disorder with psychotic features?</label>
+    <div class="yn-row"><span><div class="check-box"></div> Yes</span><span><div class="check-box"></div> No</span></div>
+  </div>
+  <div class="field-group">
+    <label>Family history of schizophrenia or psychosis?</label>
+    <div class="yn-row"><span><div class="check-box"></div> Yes</span><span><div class="check-box"></div> No</span></div>
+  </div>
+
+  <h2>Substance Use History</h2>
+  <div class="field-group">
+    <label>Do you currently use alcohol? How often and how much?</label>
+    <div class="line"></div>
+  </div>
+  <div class="field-group">
+    <label>Do you use cannabis? How often?</label>
+    <div class="line"></div>
+  </div>
+  <div class="field-group">
+    <label>Do you use any other substances (recreational or otherwise)?</label>
+    <div class="tall-line"></div>
+  </div>
+  <div class="field-group">
+    <label>History of substance use disorder or addiction?</label>
+    <div class="yn-row"><span><div class="check-box"></div> Yes</span><span><div class="check-box"></div> No</span></div>
+  </div>
+  <div class="field-group"><label>If yes, substance and treatment history</label><div class="tall-line"></div></div>
+
+  <h2>Previous Mental Health Treatment</h2>
+  <div class="field-group"><label>List previous therapists, psychiatrists, or treatment programs</label><div class="tall-line"></div></div>
+  <div class="field-group">
+    <label>Have you tried antidepressant medications? List which ones and outcomes.</label>
+    <div class="tall-line"></div>
+  </div>
+  <div class="field-group">
+    <label>Have you previously received ketamine therapy?</label>
+    <div class="yn-row"><span><div class="check-box"></div> Yes</span><span><div class="check-box"></div> No</span></div>
+  </div>
+  <div class="field-group"><label>If yes, when, where, and how did it go?</label><div class="tall-line"></div></div>
+
+  <h2>For Patients of Reproductive Age</h2>
+  <div class="field-group">
+    <label>Are you currently pregnant or breastfeeding?</label>
+    <div class="yn-row"><span><div class="check-box"></div> Yes</span><span><div class="check-box"></div> No</span><span><div class="check-box"></div> Not applicable</span></div>
+  </div>
+  <div class="field-group">
+    <label>Are you currently trying to become pregnant?</label>
+    <div class="yn-row"><span><div class="check-box"></div> Yes</span><span><div class="check-box"></div> No</span><span><div class="check-box"></div> Not applicable</span></div>
+  </div>
+
+  <h2>Additional Information</h2>
+  <div class="field-group"><label>Anything else you would like your provider to know?</label><div class="tall-line"></div><div class="tall-line"></div></div>
+
+  <div style="margin-top: 40px; border: 1px solid var(--border); border-radius: 10px; padding: 28px 24px; background: white;">
+    <h2 style="margin-top: 0;">Signature</h2>
+    <p class="note" style="margin-bottom: 20px;">I certify that the information provided is accurate and complete to the best of my knowledge.</p>
+    <div class="two-col">
+      <div class="field-group"><label>Patient Signature</label><div class="line"></div></div>
+      <div class="field-group"><label>Date</label><div class="line"></div></div>
+    </div>
+  </div>
+</main>
+</body>
+</html>
