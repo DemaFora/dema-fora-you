@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DemaFora You — Discover You.</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --sage:#4a7c6a;
+  --sage-light:#7aab95;
+  --sage-pale:#eaf3ef;
+  --cream:#faf9f6;
+  --cream-2:#f0ece4;
+  --white:#ffffff;
+  --ink:#1c1f1c;
+  --muted:#5e6b5e;
+  --border:#d4e4da;
+}
+body{font-family:'Inter',sans-serif;background:var(--cream);color:var(--ink);line-height:1.6;}
+a{text-decoration:none;color:inherit;}
+
+/* NAV */
+nav{background:rgba(250,249,246,0.95);backdrop-filter:blur(8px);border-bottom:1px solid var(--border);padding:0 48px;height:68px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;}
+.nav-logo{font-size:20px;font-weight:900;letter-spacing:-0.5px;color:var(--ink);}
+.nav-logo span{color:var(--sage);}
+.nav-tagline{font-size:12px;color:var(--muted);font-style:italic;margin-left:10px;font-weight:400;}
+.nav-links{display:flex;gap:28px;align-items:center;}
+.nav-links a{font-size:14px;font-weight:500;color:var(--muted);transition:color .2s;}
+.nav-links a:hover{color:var(--sage);}
+.nav-cta{background:var(--sage);color:#fff;padding:10px 22px;border-radius:100px;font-size:14px;font-weight:600;transition:background .2s;}
+.nav-cta:hover{background:#3a6455;}
+@media(max-width:768px){.nav-links{display:none;} .nav-tagline{display:none;}}
+
+/* HERO */
+.hero{padding:100px 48px 80px;max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1.1fr 1fr;gap:72px;align-items:center;}
+@media(max-width:900px){.hero{grid-template-columns:1fr;padding:64px 24px;gap:48px;}}
+.hero-eyebrow{font-size:12px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--sage);margin-bottom:18px;}
+.hero-title{font-size:54px;font-weight:900;line-height:1.05;letter-spacing:-2.5px;color:var(--ink);margin-bottom:20px;}
+.hero-title em{color:var(--sage);font-style:italic;}
+.hero-sub{font-size:18px;color:var(--muted);line-height:1.7;margin-bottom:36px;max-width:480px;}
+.hero-btns{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:32px;}
+.btn-primary{background:var(--sage);color:#fff;padding:16px 32px;border-radius:100px;font-size:15px;font-weight:700;display:inline-block;transition:background .2s;}
+.btn-primary:hover{background:#3a6455;}
+.btn-ghost{background:transparent;color:var(--sage);border:1.5px solid var(--sage);padding:16px 28px;border-radius:100px;font-size:15px;font-weight:600;display:inline-block;transition:all .2s;}
+.btn-ghost:hover{background:var(--sage-pale);}
+.hero-trust{display:flex;gap:20px;flex-wrap:wrap;}
+.trust-pill{display:flex;align-items:center;gap:7px;font-size:13px;color:var(--muted);font-weight:500;}
+.trust-pill::before{content:'';width:6px;height:6px;background:var(--sage);border-radius:50%;flex-shrink:0;}
+.hero-visual{background:var(--white);border:1px solid var(--border);border-radius:24px;padding:32px;box-shadow:0 8px 40px rgba(74,124,106,0.08);}
+.hero-quote{font-size:17px;font-style:italic;color:var(--ink);line-height:1.65;margin-bottom:20px;border-left:3px solid var(--sage);padding-left:18px;}
+.hero-attr{font-size:13px;color:var(--muted);font-weight:600;}
+.hero-attr-sub{font-size:12px;color:var(--muted);font-weight:400;margin-top:2px;}
+.hero-divider{border:none;border-top:1px solid var(--border);margin:20px 0;}
+.hero-stat-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.hero-stat{text-align:center;}
+.hero-stat-num{font-size:30px;font-weight:900;color:var(--sage);letter-spacing:-1px;line-height:1;}
+.hero-stat-label{font-size:12px;color:var(--muted);margin-top:4px;line-height:1.4;}
+
+/* PHILOSOPHY */
+.philosophy{background:var(--sage);padding:64px 48px;text-align:center;}
+.philosophy-inner{max-width:700px;margin:0 auto;}
+.philosophy-label{font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,0.6);margin-bottom:16px;}
+.philosophy-title{font-size:36px;font-weight:900;letter-spacing:-1px;color:#fff;margin-bottom:16px;line-height:1.1;}
+.philosophy-text{font-size:17px;color:rgba(255,255,255,0.8);line-height:1.7;}
+
+/* HOW IT WORKS */
+.section{padding:80px 48px;max-width:1100px;margin:0 auto;}
+.section-label{font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--sage);margin-bottom:12px;}
+.section-title{font-size:36px;font-weight:900;letter-spacing:-1px;color:var(--ink);margin-bottom:12px;line-height:1.1;}
+.section-sub{font-size:16px;color:var(--muted);line-height:1.65;max-width:560px;margin-bottom:48px;}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;}
+@media(max-width:768px){.steps{grid-template-columns:1fr;}}
+.step{background:var(--white);border:1px solid var(--border);border-radius:18px;padding:28px 24px;}
+.step-num{font-size:38px;font-weight:900;color:var(--sage-pale);letter-spacing:-1px;margin-bottom:12px;line-height:1;}
+.step-title{font-size:17px;font-weight:800;color:var(--ink);margin-bottom:8px;}
+.step-desc{font-size:14px;color:var(--muted);line-height:1.65;}
+
+/* CONDITIONS */
+.conditions-section{background:var(--cream-2);padding:80px 48px;}
+.conditions-inner{max-width:1100px;margin:0 auto;}
+.conditions-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:40px;}
+@media(max-width:700px){.conditions-grid{grid-template-columns:1fr;}}
+.condition-card{background:var(--white);border:1px solid var(--border);border-radius:14px;padding:24px;}
+.condition-head{display:flex;align-items:center;gap:12px;margin-bottom:10px;}
+.condition-icon{width:40px;height:40px;background:var(--sage);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:900;color:#fff;flex-shrink:0;letter-spacing:0;}
+.condition-name{font-size:16px;font-weight:800;color:var(--ink);}
+.condition-desc{font-size:14px;color:var(--muted);line-height:1.6;}
+
+/* SCIENCE */
+.science-section{padding:80px 48px;max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center;}
+@media(max-width:900px){.science-section{grid-template-columns:1fr;gap:40px;}}
+.science-card{background:var(--sage-pale);border-radius:20px;padding:32px;}
+.science-item{display:flex;align-items:flex-start;gap:12px;margin-bottom:14px;}
+.science-dot{width:6px;height:6px;border-radius:50%;background:var(--sage);margin-top:7px;flex-shrink:0;}
+.science-text{font-size:14px;color:var(--ink);line-height:1.6;}
+
+/* TESTIMONIALS */
+.testimonials{padding:80px 48px;background:var(--white);}
+.testimonials-inner{max-width:1100px;margin:0 auto;}
+.testimonials-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:40px;}
+@media(max-width:768px){.testimonials-grid{grid-template-columns:1fr;}}
+.test-card{background:var(--cream);border:1px solid var(--border);border-radius:16px;padding:24px;}
+.test-stars{font-size:13px;color:var(--sage);margin-bottom:12px;letter-spacing:2px;}
+.test-text{font-size:14px;color:var(--ink);line-height:1.75;margin-bottom:16px;font-style:italic;}
+.test-name{font-size:13px;font-weight:700;color:var(--ink);}
+.test-detail{font-size:12px;color:var(--muted);margin-top:2px;}
+
+/* CTA */
+.cta-section{background:var(--ink);padding:88px 48px;text-align:center;}
+.cta-title{font-size:44px;font-weight:900;letter-spacing:-1.5px;color:#fff;margin-bottom:14px;line-height:1.1;}
+.cta-title em{color:var(--sage-light);font-style:italic;}
+.cta-sub{font-size:17px;color:rgba(255,255,255,0.6);margin-bottom:36px;max-width:480px;margin-left:auto;margin-right:auto;line-height:1.65;}
+.cta-btn{background:var(--sage);color:#fff;padding:18px 40px;border-radius:100px;font-size:16px;font-weight:700;display:inline-block;transition:background .2s;}
+.cta-btn:hover{background:#3a6455;}
+.cta-note{font-size:13px;color:rgba(255,255,255,0.35);margin-top:16px;}
+
+/* FAQ */
+.faq-section{padding:80px 48px;max-width:760px;margin:0 auto;}
+.faq-item{border-bottom:1px solid var(--border);padding:22px 0;}
+.faq-q{font-size:16px;font-weight:700;color:var(--ink);}
+.faq-a{font-size:14px;color:var(--muted);line-height:1.7;margin-top:10px;}
+
+/* FOOTER */
+footer{background:#111;color:rgba(255,255,255,0.5);padding:48px;text-align:center;}
+.footer-logo{font-size:18px;font-weight:900;color:#fff;margin-bottom:8px;}
+.footer-logo span{color:var(--sage-light);}
+.footer-tagline{font-size:13px;color:rgba(255,255,255,0.3);font-style:italic;margin-bottom:20px;}
+.footer-links{display:flex;gap:24px;justify-content:center;margin-bottom:24px;flex-wrap:wrap;}
+.footer-links a{font-size:13px;color:rgba(255,255,255,0.4);}
+.footer-disclaimer{font-size:10px;color:rgba(255,255,255,0.2);max-width:680px;margin:0 auto;line-height:1.7;}
+</style>
+</head>
+<body>
+
+<nav>
+  <div style="display:flex;align-items:baseline;gap:2px;">
+    <div class="nav-logo">DemaFora <span>You</span></div>
+    <div class="nav-tagline">Discover you.</div>
+  </div>
+  <div class="nav-links">
+    <a href="#how">How It Works</a>
+    <a href="#conditions">Conditions</a>
+    <a href="#science">The Science</a>
+    <a href="#faq">FAQ</a>
+    <a href="intake.html" class="nav-cta">Start Assessment</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section>
+<div class="hero">
+  <div>
+    <div class="hero-eyebrow">Ketamine therapy — all 50 states</div>
+    <h1 class="hero-title">You've been here before. <em>Find your way back.</em></h1>
+    <p class="hero-sub">DemaFora You offers physician-supervised ketamine therapy for depression, anxiety, PTSD, and chronic pain. At-home. On your terms.</p>
+    <div class="hero-btns">
+      <a href="intake.html" class="btn-primary">Start Your Free Assessment</a>
+      <a href="#how" class="btn-ghost">See How It Works</a>
+    </div>
+    <div class="hero-trust">
+      <span class="trust-pill">Licensed physicians</span>
+      <span class="trust-pill">All 50 states</span>
+      <span class="trust-pill">Results in 72 hours</span>
+      <span class="trust-pill">At-home delivery</span>
+    </div>
+  </div>
+  <div class="hero-visual">
+    <div class="hero-quote">"I felt like myself again for the first time in years. Not fixed — just me again. That's all I wanted."</div>
+    <div class="hero-attr">Rebecca M.</div>
+    <div class="hero-attr-sub">Treatment-resistant depression — 6 weeks</div>
+    <hr class="hero-divider">
+    <div class="hero-stat-row">
+      <div class="hero-stat">
+        <div class="hero-stat-num">83%</div>
+        <div class="hero-stat-label">Report significant improvement within month 1</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">72hrs</div>
+        <div class="hero-stat-label">Average time to first noticeable relief</div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- PHILOSOPHY -->
+<div class="philosophy">
+  <div class="philosophy-inner">
+    <div class="philosophy-label">Our philosophy</div>
+    <h2 class="philosophy-title">This isn't about managing symptoms. It's about rediscovering who you are.</h2>
+    <p class="philosophy-text">Traditional treatments mask the surface. Ketamine works differently — creating new neural pathways and breaking the patterns that keep you stuck. DemaFora You is built around one belief: the person you want to be is already in there.</p>
+  </div>
+</div>
+
+<!-- HOW IT WORKS -->
+<div id="how">
+<section class="section">
+  <div class="section-label">Process</div>
+  <h2 class="section-title">Simple. Private. At home.</h2>
+  <p class="section-sub">From your first question to your first treatment, the whole process takes days — not months.</p>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">01</div>
+      <div class="step-title">Tell us about yourself</div>
+      <div class="step-desc">Complete a short intake — your symptoms, history, and goals. Takes about 3 minutes. A licensed physician reviews everything personally.</div>
+    </div>
+    <div class="step">
+      <div class="step-num">02</div>
+      <div class="step-title">Meet your physician</div>
+      <div class="step-desc">Telehealth consultation at your convenience. Your physician builds a protocol around your specific situation — not a generic program.</div>
+    </div>
+    <div class="step">
+      <div class="step-num">03</div>
+      <div class="step-title">Begin at home</div>
+      <div class="step-desc">Your prescription arrives discreetly from a licensed U.S. pharmacy. Follow your protocol at home with ongoing physician support throughout.</div>
+    </div>
+  </div>
+</section>
+</div>
+
+<!-- CONDITIONS -->
+<div id="conditions" class="conditions-section">
+<div class="conditions-inner">
+  <div class="section-label">Who we help</div>
+  <h2 class="section-title">Ketamine therapy may be right for you if...</h2>
+  <div class="conditions-grid">
+    <div class="condition-card">
+      <div class="condition-head">
+        <div class="condition-icon">D</div>
+        <div class="condition-name">Depression</div>
+      </div>
+      <div class="condition-desc">Especially treatment-resistant depression where antidepressants haven't worked. Ketamine produces rapid antidepressant effects — often felt within hours.</div>
+    </div>
+    <div class="condition-card">
+      <div class="condition-head">
+        <div class="condition-icon">A</div>
+        <div class="condition-name">Anxiety</div>
+      </div>
+      <div class="condition-desc">Generalized anxiety, panic disorder, social anxiety. Ketamine helps reduce the nervous system's hypervigilance and breaks anxiety thought loops.</div>
+    </div>
+    <div class="condition-card">
+      <div class="condition-head">
+        <div class="condition-icon">P</div>
+        <div class="condition-name">PTSD</div>
+      </div>
+      <div class="condition-desc">Ketamine may help process traumatic memories by reducing emotional reactivity — allowing patients to approach difficult memories with less fear.</div>
+    </div>
+    <div class="condition-card">
+      <div class="condition-head">
+        <div class="condition-icon">C</div>
+        <div class="condition-name">Chronic Pain</div>
+      </div>
+      <div class="condition-desc">Fibromyalgia, neuropathic pain, complex regional pain syndrome. Ketamine targets the nervous system's pain-signaling pathways differently than traditional pain medication.</div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- SCIENCE -->
+<div id="science">
+<div class="science-section">
+  <div>
+    <div class="section-label">The science</div>
+    <h2 class="section-title">Why ketamine works when nothing else has</h2>
+    <p style="font-size:16px;color:var(--muted);line-height:1.7;margin-bottom:16px;">Traditional antidepressants target serotonin — and take 4-8 weeks to work, if they work at all. Ketamine acts on glutamate receptors, triggering rapid neuroplasticity and building new neural pathways within hours.</p>
+    <p style="font-size:16px;color:var(--muted);line-height:1.7;">For people who have tried everything, ketamine offers a fundamentally different mechanism — one that doesn't depend on the same pathways that have failed before.</p>
+  </div>
+  <div class="science-card">
+    <div style="font-size:14px;font-weight:700;color:var(--sage);margin-bottom:16px;letter-spacing:.05em;">What the research shows</div>
+    <div class="science-item"><div class="science-dot"></div><div class="science-text">Antidepressant effects often felt within 2-4 hours of first dose</div></div>
+    <div class="science-item"><div class="science-dot"></div><div class="science-text">70-80% response rate in treatment-resistant depression</div></div>
+    <div class="science-item"><div class="science-dot"></div><div class="science-text">Promotes neuroplasticity — building new, healthier neural pathways</div></div>
+    <div class="science-item"><div class="science-dot"></div><div class="science-text">Reduces suicidal ideation faster than any other known treatment</div></div>
+    <div class="science-item"><div class="science-dot"></div><div class="science-text">Effective for PTSD by reducing emotional reactivity to trauma</div></div>
+    <div class="science-item"><div class="science-dot"></div><div class="science-text">Favorable safety profile under physician supervision at therapeutic doses</div></div>
+  </div>
+</div>
+</div>
+
+<!-- TESTIMONIALS -->
+<div class="testimonials">
+<div class="testimonials-inner">
+  <div class="section-label">Patient stories</div>
+  <h2 class="section-title">Real people. Real rediscovery.</h2>
+  <div class="testimonials-grid">
+    <div class="test-card">
+      <div class="test-stars">★★★★★</div>
+      <div class="test-text">"I tried four different antidepressants over eight years. Nothing touched it. Within 48 hours of my first treatment, something shifted. I don't know how else to describe it — I felt like me again."</div>
+      <div class="test-name">Michael T.</div>
+      <div class="test-detail">Treatment-resistant depression · 3 months</div>
+    </div>
+    <div class="test-card">
+      <div class="test-stars">★★★★★</div>
+      <div class="test-text">"My PTSD made it impossible to sleep, impossible to be present. After two months, my nightmares are mostly gone. My therapist says I'm processing things I couldn't even approach before."</div>
+      <div class="test-name">Sarah K.</div>
+      <div class="test-detail">PTSD · 2 months</div>
+    </div>
+    <div class="test-card">
+      <div class="test-stars">★★★★★</div>
+      <div class="test-text">"The anxiety has been with me since I was a teenager. I thought it was just who I was. DemaFora You showed me it wasn't — it was something I could actually change."</div>
+      <div class="test-name">James R.</div>
+      <div class="test-detail">Generalized anxiety · 6 weeks</div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- CTA -->
+<div class="cta-section">
+  <h2 class="cta-title">The you you've been looking for<br><em>is still in there.</em></h2>
+  <p class="cta-sub">Start with a free assessment. A physician will review your history and reach out within 24 hours. No commitment required.</p>
+  <a href="intake.html" class="cta-btn">Start Your Free Assessment</a>
+  <div class="cta-note">Free assessment. Physician review included. All 50 states. No commitment.</div>
+</div>
+
+<!-- FAQ -->
+<section id="faq" class="faq-section">
+  <div class="section-label">Questions</div>
+  <h2 class="section-title" style="margin-bottom:32px;">Common questions</h2>
+  <div class="faq-item">
+    <div class="faq-q">Is ketamine therapy legal?</div>
+    <div class="faq-a">Yes. Ketamine is FDA-approved as an anesthetic and has been used in medicine for over 50 years. When prescribed by a licensed physician for off-label psychiatric use, it is fully legal in all 50 states.</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q">How is the medication delivered?</div>
+    <div class="faq-a">After physician approval, your prescription is fulfilled by a licensed U.S. pharmacy and shipped discreetly to your home. Most patients receive their medication within 3-5 business days.</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q">What does treatment cost?</div>
+    <div class="faq-a">Most patients start around $150-200/month for a maintenance protocol. A DemaFora membership ($50/mo) provides significant savings across all programs.</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q">Is it covered by insurance?</div>
+    <div class="faq-a">Most insurance plans do not cover compounded ketamine. DemaFora You is designed to be far more affordable than in-clinic IV ketamine infusions, which typically cost $400-$800 per session.</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q">What are the side effects?</div>
+    <div class="faq-a">At low therapeutic doses, ketamine is well-tolerated. Temporary effects may include mild dissociation, drowsiness, or nausea. Your physician will walk you through exactly what to expect before you begin.</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q">Will I need to stop my current medications?</div>
+    <div class="faq-a">Not necessarily. Many patients continue existing medications during ketamine therapy. Your physician will review all current medications during your consultation and advise accordingly.</div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-logo">DemaFora <span>You</span></div>
+  <div class="footer-tagline">Discover you.</div>
+  <div class="footer-links">
+    <a href="#">Privacy Policy</a>
+    <a href="#">Terms of Service</a>
+    <a href="intake.html">Start Assessment</a>
+    <a href="mailto:care@demaforayou.com">Contact</a>
+  </div>
+  <div class="footer-disclaimer">DemaFora You is a healthcare technology platform and is not a medical provider or pharmacy. Clinical care is provided by licensed providers affiliated with an independent physician group. Prescriptions, if approved, are fulfilled by a licensed U.S. pharmacy. Completing an intake does not guarantee treatment. Compounded medications are not FDA-approved. Individual results vary. Not for emergencies — call 911.</div>
+</footer>
+
+</body>
+</html>
